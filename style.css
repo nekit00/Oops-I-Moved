@@ -19,3 +19,24 @@ body {
   height: 32px;
   image-rendering: pixelated;
 }
+
+#tree {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  image-rendering: pixelated;
+}
+
+#water {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  image-rendering: pixelated;
+}
+
+#cow {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  image-rendering: pixelated;
+}
