@@ -7,17 +7,17 @@ const startBtn = document.getElementById("startBtn");
 
 let playerName = "Player";
 
-// стартовая позиция
+// START position
 let x = 100;
 let y = 100;
 let targetX = x;
 let targetY = y;
 
-// объекты
+// objects
 let trees = [];
 let waters = [];
 
-// 🌳 деревья
+// Tree
 function generateTrees(count) {
   for (let i = 0; i < count; i++) {
     let tx = Math.random() * 760;
@@ -37,7 +37,7 @@ function generateTrees(count) {
   }
 }
 
-// 💧 вода
+// Water
 function generateWater(count) {
   for (let i = 0; i < count; i++) {
     let tx = Math.random() * 760;
@@ -57,7 +57,7 @@ function generateWater(count) {
   }
 }
 
-// 🚫 коллизии
+// Colision
 function isColliding(nx, ny) {
   for (let t of trees) {
     if (Math.abs(nx - t.x) < 30 && Math.abs(ny - t.y) < 30) return true;
@@ -68,7 +68,7 @@ function isColliding(nx, ny) {
   return false;
 }
 
-// 🐄 корова
+// Cow
 let cow = { x: 300, y: 300, targetX: 300, targetY: 300 };
 
 const cowEl = document.createElement("img");
@@ -101,7 +101,7 @@ function updateCow() {
   cowText.style.top = (cow.y - 20) + "px";
 }
 
-// 🐔 курица
+// Chicken
 let chicken = { x: 500, y: 200, targetX: 500, targetY: 200 };
 
 const chickenEl = document.createElement("img");
@@ -134,7 +134,7 @@ function updateChicken() {
   chickenText.style.top = (chicken.y - 20) + "px";
 }
 
-// 🎮 игрок
+// Player
 function update() {
   let nextX = x + (targetX - x) * 0.1;
   let nextY = y + (targetY - y) * 0.1;
@@ -147,7 +147,7 @@ function update() {
   player.style.left = x + "px";
   player.style.top = y + "px";
 
-  // имя
+  // Name
   playerNameEl.innerText = playerName;
   playerNameEl.style.left = x + "px";
   playerNameEl.style.top = (y - 15) + "px";
@@ -158,21 +158,21 @@ function update() {
   requestAnimationFrame(update);
 }
 
-// 🖱 движение
+// Movement
 world.addEventListener("click", (e) => {
   const rect = world.getBoundingClientRect();
   targetX = e.clientX - rect.left;
   targetY = e.clientY - rect.top;
 });
 
-// 🏷 имя
+// Name
 startBtn.onclick = () => {
   if (nameInput.value.trim() !== "") {
     playerName = nameInput.value;
   }
 };
 
-// 🚀 старт
+// Start
 generateTrees(15);
 generateWater(10);
 update();
