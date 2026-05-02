@@ -1,18 +1,23 @@
 const player = document.getElementById("player");
+const playerNameEl = document.getElementById("playerName");
 const world = document.getElementById("world");
 
-//player position
+const nameInput = document.getElementById("nameInput");
+const startBtn = document.getElementById("startBtn");
+
+let playerName = "Player";
+
+// стартовая позиция
 let x = 100;
 let y = 100;
-
 let targetX = x;
 let targetY = y;
 
-//objects
+// объекты
 let trees = [];
 let waters = [];
 
-//Trees
+// 🌳 деревья
 function generateTrees(count) {
   for (let i = 0; i < count; i++) {
     let tx = Math.random() * 760;
@@ -22,18 +27,17 @@ function generateTrees(count) {
 
     const tree = document.createElement("img");
     tree.src = "https://tinkr.tech/sdb_apps/wanderworld/images/tree.png";
-
     tree.style.position = "absolute";
     tree.style.left = tx + "px";
     tree.style.top = ty + "px";
-    tree.style.width = "48px"; 
+    tree.style.width = "48px";
     tree.style.imageRendering = "pixelated";
 
     world.appendChild(tree);
   }
 }
 
-//Water
+// 💧 вода
 function generateWater(count) {
   for (let i = 0; i < count; i++) {
     let tx = Math.random() * 760;
@@ -43,43 +47,29 @@ function generateWater(count) {
 
     const water = document.createElement("img");
     water.src = "https://tinkr.tech/sdb_apps/wanderworld/images/water.png";
-
     water.style.position = "absolute";
     water.style.left = tx + "px";
     water.style.top = ty + "px";
-    water.style.width = "35px";
+    water.style.width = "40px";
     water.style.imageRendering = "pixelated";
 
     world.appendChild(water);
   }
 }
 
-//checking
+// 🚫 коллизии
 function isColliding(nx, ny) {
-  //Trees
   for (let t of trees) {
-    if (Math.abs(nx - t.x) < 30 && Math.abs(ny - t.y) < 30) {
-      return true;
-    }
+    if (Math.abs(nx - t.x) < 30 && Math.abs(ny - t.y) < 30) return true;
   }
-
-  //Water
   for (let w of waters) {
-    if (Math.abs(nx - w.x) < 20 && Math.abs(ny - w.y) < 20) {
-      return true;
-    }
+    if (Math.abs(nx - w.x) < 25 && Math.abs(ny - w.y) < 25) return true;
   }
-
   return false;
 }
 
-// Cow
-let cow = {
-  x: 300,
-  y: 300,
-  targetX: 300,
-  targetY: 300
-};
+// 🐄 корова
+let cow = { x: 300, y: 300, targetX: 300, targetY: 300 };
 
 const cowEl = document.createElement("img");
 cowEl.src = "https://tinkr.tech/sdb_apps/wanderworld/images/cow.png";
@@ -88,30 +78,16 @@ cowEl.style.width = "40px";
 cowEl.style.imageRendering = "pixelated";
 world.appendChild(cowEl);
 
-//Cows text
 const cowText = document.createElement("div");
-cowText.style.position = "absolute";
-cowText.style.background = "white";
-cowText.style.padding = "2px 5px";
-cowText.style.fontSize = "10px";
-cowText.style.borderRadius = "5px";
+cowText.classList.add("npcText");
 world.appendChild(cowText);
 
-//cow movement
 function updateCow() {
-  //changing plase
-  if (Math.random() < 0.005) {
+  if (Math.random() < 0.01) {
     cow.targetX = Math.random() * 760;
     cow.targetY = Math.random() * 560;
 
-    const phrases = [
-      "Moo~~~",
-      "Hello!",
-      "I am cow",
-      "Welcome traveler",
-      "grass..."
-    ];
-
+    const phrases = ["Moo 🐄", "Hello!", "Welcome!", "Grass..."];
     cowText.innerText = phrases[Math.floor(Math.random() * phrases.length)];
   }
 
@@ -125,7 +101,40 @@ function updateCow() {
   cowText.style.top = (cow.y - 20) + "px";
 }
 
-//plaer movement
+// 🐔 курица
+let chicken = { x: 500, y: 200, targetX: 500, targetY: 200 };
+
+const chickenEl = document.createElement("img");
+chickenEl.src = "https://tinkr.tech/sdb_apps/wanderworld/images/chicken.png";
+chickenEl.style.position = "absolute";
+chickenEl.style.width = "40px";
+chickenEl.style.imageRendering = "pixelated";
+world.appendChild(chickenEl);
+
+const chickenText = document.createElement("div");
+chickenText.classList.add("npcText");
+world.appendChild(chickenText);
+
+function updateChicken() {
+  if (Math.random() < 0.01) {
+    chicken.targetX = Math.random() * 760;
+    chicken.targetY = Math.random() * 560;
+
+    const phrases = ["Cluck!", "Hi!", "Seeds...", "Run!"];
+    chickenText.innerText = phrases[Math.floor(Math.random() * phrases.length)];
+  }
+
+  chicken.x += (chicken.targetX - chicken.x) * 0.02;
+  chicken.y += (chicken.targetY - chicken.y) * 0.02;
+
+  chickenEl.style.left = chicken.x + "px";
+  chickenEl.style.top = chicken.y + "px";
+
+  chickenText.style.left = chicken.x + "px";
+  chickenText.style.top = (chicken.y - 20) + "px";
+}
+
+// 🎮 игрок
 function update() {
   let nextX = x + (targetX - x) * 0.1;
   let nextY = y + (targetY - y) * 0.1;
@@ -138,20 +147,32 @@ function update() {
   player.style.left = x + "px";
   player.style.top = y + "px";
 
+  // имя
+  playerNameEl.innerText = playerName;
+  playerNameEl.style.left = x + "px";
+  playerNameEl.style.top = (y - 15) + "px";
+
   updateCow();
+  updateChicken();
 
   requestAnimationFrame(update);
 }
 
-//klick
+// 🖱 движение
 world.addEventListener("click", (e) => {
   const rect = world.getBoundingClientRect();
-
   targetX = e.clientX - rect.left;
   targetY = e.clientY - rect.top;
 });
 
-//update + start
+// 🏷 имя
+startBtn.onclick = () => {
+  if (nameInput.value.trim() !== "") {
+    playerName = nameInput.value;
+  }
+};
+
+// 🚀 старт
 generateTrees(15);
 generateWater(10);
 update();
