@@ -101,38 +101,6 @@ function updateCow() {
   cowText.style.top = (cow.y - 20) + "px";
 }
 
-// Chicken
-let chicken = { x: 500, y: 200, targetX: 500, targetY: 200 };
-
-const chickenEl = document.createElement("img");
-chickenEl.src = "https://tinkr.tech/sdb_apps/wanderworld/images/chicken.png";
-chickenEl.style.position = "absolute";
-chickenEl.style.width = "40px";
-chickenEl.style.imageRendering = "pixelated";
-world.appendChild(chickenEl);
-
-const chickenText = document.createElement("div");
-chickenText.classList.add("npcText");
-world.appendChild(chickenText);
-
-function updateChicken() {
-  if (Math.random() < 0.01) {
-    chicken.targetX = Math.random() * 760;
-    chicken.targetY = Math.random() * 560;
-
-    const phrases = ["Cluck!", "Hi!", "Seeds...", "Run!"];
-    chickenText.innerText = phrases[Math.floor(Math.random() * phrases.length)];
-  }
-
-  chicken.x += (chicken.targetX - chicken.x) * 0.02;
-  chicken.y += (chicken.targetY - chicken.y) * 0.02;
-
-  chickenEl.style.left = chicken.x + "px";
-  chickenEl.style.top = chicken.y + "px";
-
-  chickenText.style.left = chicken.x + "px";
-  chickenText.style.top = (chicken.y - 20) + "px";
-}
 
 // Player
 function update() {
@@ -153,7 +121,6 @@ function update() {
   playerNameEl.style.top = (y - 15) + "px";
 
   updateCow();
-  updateChicken();
 
   requestAnimationFrame(update);
 }
