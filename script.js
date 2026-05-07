@@ -115,29 +115,12 @@ function update() {
   player.style.left = x + "px";
   player.style.top = y + "px";
 
-  // Name
-  playerNameEl.innerText = playerName;
-  playerNameEl.style.left = x + "px";
-  playerNameEl.style.top = (y - 15) + "px";
-
-  updateCow();
-
-  requestAnimationFrame(update);
-}
-
 // Movement
 world.addEventListener("click", (e) => {
   const rect = world.getBoundingClientRect();
   targetX = e.clientX - rect.left;
   targetY = e.clientY - rect.top;
 });
-
-// Name
-startBtn.onclick = () => {
-  if (nameInput.value.trim() !== "") {
-    playerName = nameInput.value;
-  }
-};
 
 // Start
 generateTrees(15);
