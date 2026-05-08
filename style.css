@@ -34,11 +34,3 @@ body {
   pointer-events: none;
 }
 
-.npcText {
-  position: absolute;
-  background: white;
-  color: black;
-  padding: 3px 6px;
-  font-size: 10px;
-  border-radius: 6px;
-}
